@@ -1,0 +1,61 @@
+server:
+  port: 6162
+  servlet:
+    context-path: /utils
+
+spring:
+  application:
+    name: utils
+  #数据库配置
+  datasource:
+    driverclassname: oracle.jdbc.OracleDriver
+    url:
+    username:
+    password:
+    hikari:
+      # 连接超时时间 - 默认值：30秒。
+      connection-timeout: 30000
+      # 连接池中允许闲置的最长时间  - 默认值：10分钟
+      idle-timeout: 300000 #5分钟
+      # 一个连接生命时长（毫秒），超时而没被使用则被释放 - 默认值：30分钟
+      max-lifetime: 300000 #5分钟
+      # 连接池中允许的最小空闲连接数 - 默认值：10
+      minimum-idle: 5
+      # 连接池中允许的最大连接数，包括闲置和使用中的连接 - 默认值：10
+      maximum-pool-size: 30
+
+mybatis-plus:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: varchar #指定数据库中某些字段的类型为varchar，解决mybatis-plus自动生成的sql报错问题
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+    call-setters-on-nulls: true
+  type-aliases-package: com.example.utils.model
+
+mybatis-plus-join:
+  #是否打印 mybatis plus join banner 默认true
+  banner: true
+  #全局启用副表逻辑删除(默认true) 关闭后关联查询不会加副表逻辑删除
+  sub-table-logic: true
+  #拦截器MappedStatement缓存(默认true)
+  ms-cache: false
+  #表别名(默认 t)
+  table-alias: t
+  #副表逻辑删除条件的位置，支持where、on
+  #默认ON （1.4.7.2及之前版本默认为where）
+  logic-del-type: on
+
+
+
+pagehelper:
+  helper-dialect: Oracle
+  #  启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页
+  reasonable: true
+  #  设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用
+  offset-as-page-num: true
+  #  设置为true时，使用RowBounds分页会进行count查询
+  row-bounds-with-count: true
+
